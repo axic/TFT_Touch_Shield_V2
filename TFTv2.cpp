@@ -20,7 +20,7 @@
 
 */
 
-#include <TFTv2.h>
+#include "TFTv2.h"
 #include <SPI.h>
 #define FONT_SPACE 6
 #define FONT_X 8
@@ -28,8 +28,10 @@
 
 void TFT::TFTinit (void)
 {
+    TFT_PIN_INIT;
+
     SPI.begin();
-    
+
     TFT_CS_HIGH;
     TFT_DC_HIGH;
     INT8U i=0, TFTDriver=0;

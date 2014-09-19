@@ -54,6 +54,8 @@
 
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 
+#define TFT_PIN_INIT {}
+
 #define TFT_CS_LOW  {DDRE |= 0x08;PORTE &=~ 0x08;}
 #define TFT_CS_HIGH {DDRE |= 0x08;PORTE |=  0x08;}
 #define TFT_DC_LOW  {DDRH |= 0x08;PORTH &=~ 0x08;}
@@ -68,6 +70,8 @@
 
 #elif defined(__AVR_ATmega32U4__)
 
+#define TFT_PIN_INIT {}
+
 #define TFT_CS_LOW  {DDRC |= 0x40;PORTC &=~ 0x40;}
 #define TFT_CS_HIGH {DDRC |= 0x40;PORTC |=  0x40;}
 #define TFT_DC_LOW  {DDRD |= 0x80;PORTD &=~ 0x80;}
@@ -80,7 +84,29 @@
 #define YM 18   // can be a digital pin, this is A0
 #define XP 21   // can be a digital pin, this is A3
 
+#elif defined(__ARDUINO_X86__)
+
+#define CS_PIN 5
+#define DC_PIN 6
+#define BL_PIN 7
+
+#define TFT_PIN_INIT { \
+  pinMode(CS_PIN, OUTPUT);\
+  pinMode(DC_PIN, OUTPUT);\
+  pinMode(BL_PIN, OUTPUT);\
+}
+
+#define TFT_CS_LOW  digitalWrite(CS_PIN, LOW);
+#define TFT_CS_HIGH digitalWrite(CS_PIN, HIGH);
+#define TFT_DC_LOW  digitalWrite(DC_PIN, LOW);
+#define TFT_DC_HIGH digitalWrite(DC_PIN, HIGH);
+#define TFT_BL_OFF  digitalWrite(BL_PIN, LOW);
+#define TFT_BL_ON   digitalWrite(BL_PIN, HIGH);
+
 #else
+
+#define TFT_PIN_INIT {}
+
 #define TFT_CS_LOW  {DDRD |= 0x20;PORTD &=~ 0x20;}
 #define TFT_CS_HIGH {DDRD |= 0x20;PORTD |=  0x20;}
 #define TFT_DC_LOW  {DDRD |= 0x40;PORTD &=~ 0x40;}
